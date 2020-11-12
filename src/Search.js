@@ -6,6 +6,9 @@ import Row from 'react-bootstrap/Row'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown'
+import _ from 'lodash'
 import './App.css'
 import ItemCard from './ItemCard'
 import female from './female.png'
@@ -53,6 +56,10 @@ function Search() {
   }
   const handleInputChange = async e => {
     setInput(e.target.value)
+  }
+  const handleSort = async e => {
+    setList(_.orderBy(list, [e],['asc']))
+    console.log(list)
   }
   const toggleSearch = async e => {
     setList([])
@@ -117,6 +124,21 @@ function Search() {
       </Container>
       <Container>
         <p>Showing {list.length} results of {count}</p>
+        <p>
+          <DropdownButton
+            size="sm"
+            title="Sort By"
+            id="dropdown-menu-sort"
+            onSelect={handleSort}
+          >
+            <Dropdown.Item eventKey={ type === 'Character' ? 'name' : 'title' }>
+              { type === 'Character' ? 'Name' : 'Title' }
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={ type === 'Character' ? 'height' : 'episode_id' }>
+              { type === 'Character' ? 'Height' : 'Episode Number' }
+            </Dropdown.Item>
+          </DropdownButton>
+        </p>
         <Row>
           {items}
         </Row>
