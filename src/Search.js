@@ -8,6 +8,10 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import './App.css'
 import ItemCard from './ItemCard'
+import female from './female.png'
+import male from './male.png'
+import movie from './movie.png'
+import robot from './robot.png'
 
 // import 'whatwg-fetch'
 
@@ -59,12 +63,27 @@ function Search() {
 
   const items = list.map((item) => {
     const urlToArray = item.url.split('/')
+    let image
+    if (type === 'Character') {
+      switch(item.gender) {
+        case 'male':
+          image = male
+          break;
+        case 'female':
+          image = female
+          break;
+        default:
+          image = robot
+      }
+    } else {
+      image = movie
+    }
     const id = urlToArray[urlToArray.length - 2]
     const linkUrl = `/item/${ type === 'Character' ? 'people' : 'films'}/${id}`
 
     return (
     <Col xs={12} md={6} lg={3}>
-      <Link to={linkUrl}><ItemCard item={item} /></Link>
+      <Link to={linkUrl}><ItemCard item={item} image={image} /></Link>
     </Col>
     )
   }  

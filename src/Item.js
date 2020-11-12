@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import female from './female.png'
 import male from './male.png'
 import movie from './movie.png'
+import robot from './robot.png'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Image from 'react-bootstrap/Image'
+import { Link } from "react-router-dom"
 import './App.css'
 
 function Item() {
   const [item, setItem] = useState({})
+  const [image, setImage] = useState('')
   let { type, id } = useParams()
   const rootUrl = 'https://swapi.dev/api'
   const fullUrl = `${rootUrl}/${type}/${id}`
@@ -17,6 +20,21 @@ function Item() {
     const getResult = async () => {
       const result = await fetchApi(fullUrl)
       console.log(result)
+      if (result.name) {
+        switch(result.gender) {
+          case 'male':
+            setImage(male)
+            break;
+          case 'female':
+            setImage(female)
+            break;
+          default:
+            setImage(robot)
+        }
+      } else {
+        setImage(movie)
+      }
+
       setItem(result)
     }
     const fetchApi = async (url) => {
@@ -34,11 +52,15 @@ function Item() {
 
   return (
     <Jumbotron>
-  <h1>{ item.name ? item.name : item.title }</h1>
-  <p><Image src={ item.gender ? (item.gender === 'male' ? male : female) : movie} rounded /></p>
-  <p>
-  { item.name ? `Height: ${item.height}` : item.opening_crawl }
-  </p>
+      <p><Link to='/'>Go to Search</Link></p>
+      <h1>{ type === 'people' ? item.name : item.title }</h1>
+      <p>
+        <Image 
+        src={image} rounded />
+      </p>
+      <p>
+      { item.name ? `Height: ${item.height}` : item.opening_crawl }
+      </p>
 
 </Jumbotron>
   )
