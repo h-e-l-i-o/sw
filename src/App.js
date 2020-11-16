@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,11 +17,13 @@ function App() {
           <Route exact path="/">
             <Search />
           </Route>
-          <Route path="/item/:type/:id" children={<Item />} />
+          <Route path="/item/:type/:id">
+            <Item></Item>
+          </ Route>
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

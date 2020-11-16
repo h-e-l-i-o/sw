@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import _ from 'lodash'
 import './App.css'
@@ -32,23 +32,19 @@ function Search() {
   const getResults = async (event) => {
     event.preventDefault()
     const result = type === 'Character' ? await fetchApi(charactersUrl) : await fetchApi(filmsUrl)
-    console.log(result)
-    console.log(result.results)
     setList(result.results)
     setCount(result.count)
     result.next ? setNext(result.next) : setNext('')
-    console.log(list)
   }
   const loadMore = async () => {
     const result = await fetchApi(next)
-    console.log(result)
     setList(list.concat(result.results))
     result.next ? setNext(result.next) : setNext('')
   }
   const fetchApi = async (url) => {
     try {
       const resp = await fetch(url)
-      const resJson = await resp.json();
+      const resJson = await resp.json()
       return resJson
     } catch (e) {
       console.log(e)
@@ -59,9 +55,8 @@ function Search() {
   }
   const handleSort = async e => {
     setList(_.orderBy(list, [e],['asc']))
-    console.log(list)
   }
-  const toggleSearch = async e => {
+  const toggleSearch = async () => {
     setList([])
     setCount(0)
     setNext('')
@@ -75,10 +70,10 @@ function Search() {
       switch(item.gender) {
         case 'male':
           image = male
-          break;
+          break
         case 'female':
           image = female
-          break;
+          break
         default:
           image = robot
       }
@@ -93,15 +88,15 @@ function Search() {
       <Link to={linkUrl}><ItemCard item={item} image={image} /></Link>
     </Col>
     )
-  }  
+  }
   )
 
-  
+
   return (
     <div>
       <Container className="p-3" fluid>
 
-        <h3 className="header">Star Wars {type} Search 
+        <h3 className="header">Star Wars {type} Search
           &nbsp;
           <Button variant="primary" size="sm" onClick={toggleSearch}>
             Switch to { type === 'Character' ? 'Film' : 'Character'} search
@@ -142,15 +137,15 @@ function Search() {
         <Row>
           {items}
         </Row>
-        
+
       </Container>
       <Container className="p-3" fluid>
-        { next && 
+        { next &&
         <Button variant="outline-secondary" size="sm" block onClick={loadMore}>Load More</Button>}
       </Container>
     </div>
 
-  );
+  )
 }
 
-export default Search;
+export default Search

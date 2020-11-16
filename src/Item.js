@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useParams } from "react-router-dom"
 import female from './female.png'
 import male from './male.png'
 import movie from './movie.png'
@@ -19,15 +19,14 @@ function Item() {
   useEffect(() => {
     const getResult = async () => {
       const result = await fetchApi(fullUrl)
-      console.log(result)
       if (result.name) {
         switch(result.gender) {
           case 'male':
             setImage(male)
-            break;
+            break
           case 'female':
             setImage(female)
-            break;
+            break
           default:
             setImage(robot)
         }
@@ -40,22 +39,22 @@ function Item() {
     const fetchApi = async (url) => {
       try {
         const resp = await fetch(url)
-        const resJson = await resp.json();
+        const resJson = await resp.json()
         return resJson
       } catch (e) {
         console.log(e)
       }
     }
 
-    getResult();
-  }, []);
+    getResult()
+  }, [fullUrl])
 
   return (
     <Jumbotron>
       <p><Link to='/'>Go to Search</Link></p>
       <h1>{ type === 'people' ? item.name : item.title }</h1>
       <p>
-        <Image 
+        <Image
         src={image} rounded />
       </p>
       <p>
@@ -66,4 +65,4 @@ function Item() {
   )
 }
 
-export default Item;
+export default Item
